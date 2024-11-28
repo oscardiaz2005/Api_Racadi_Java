@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <module external.linked.project.id="$MODULE_DIR$/Racadi_Academy/Racadi_Academy/pom.xml" external.system.module.type="SINGLE_MODULE" external.system.module.version="223-2" org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_21">
     <output url="file://$MODULE_DIR$/Racadi_Academy/Racadi_Academy/target/classes" />
@@ -103,5 +104,10 @@
     <orderEntry type="library" name="Maven: io.micrometer:micrometer-commons:1.13.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:6.1.13" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:6.1.13" level="project" />
+=======
+<module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" />
+>>>>>>> master
   </component>
 </module>

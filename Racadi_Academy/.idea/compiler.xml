@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-<<<<<<< HEAD
-    <bytecodeTargetLevel>
-      <module name="Racadi_Academy" target="21" />
-    </bytecodeTargetLevel>
-=======
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -19,6 +14,5 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Racadi_Academy" options="-parameters" />
     </option>
->>>>>>> master
   </component>
 </project>
