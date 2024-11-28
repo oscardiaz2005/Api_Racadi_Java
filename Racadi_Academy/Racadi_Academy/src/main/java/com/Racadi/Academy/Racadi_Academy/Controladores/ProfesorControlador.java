@@ -1,7 +1,7 @@
 package com.Racadi.Academy.Racadi_Academy.Controladores;
 
 
-import com.Racadi.Academy.Racadi_Academy.Entidades.Profesores;
+import com.Racadi.Academy.Racadi_Academy.Entidades.Profesor;
 import com.Racadi.Academy.Racadi_Academy.Servicios.ProfeServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,27 +20,27 @@ public class ProfesorControlador {
 
 
     @PostMapping
-    public ResponseEntity<Profesores> crearProfesor(@RequestBody Profesores profe){
-        Profesores guardarProfe=profeServicio.agregar(profe);
+    public ResponseEntity<Profesor> crearProfesor(@RequestBody Profesor profe){
+        Profesor guardarProfe=profeServicio.agregar(profe);
         return new ResponseEntity<>(guardarProfe, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Profesores>> listadoProfes(){
-        List<Profesores> lista = profeServicio.listaProfesores();
+    public ResponseEntity<List<Profesor>> listadoProfes(){
+        List<Profesor> lista = profeServicio.listaProfesores();
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
     @GetMapping("/buscar")
-    public ResponseEntity<List<Profesores>> buscarProfesorPorNombre(@RequestParam String nombre) {
-        List<Profesores> profesores = profeServicio.buscarPorNombre(nombre);
+    public ResponseEntity<List<Profesor>> buscarProfesorPorNombre(@RequestParam String nombre) {
+        List<Profesor> profesores = profeServicio.buscarPorNombre(nombre);
         return new ResponseEntity<>(profesores, HttpStatus.OK);
     }
 
     @PutMapping("/{documento}")
-    public ResponseEntity<Profesores> actualizarProfe(@PathVariable String documento, @RequestBody Profesores profe){
+    public ResponseEntity<Profesor> actualizarProfe(@PathVariable String documento, @RequestBody Profesor profe){
         try{
-            Profesores actualizado=profeServicio.actualizarProfe(documento,profe);
+            Profesor actualizado=profeServicio.actualizarProfe(documento,profe);
             return new ResponseEntity<>(actualizado,HttpStatus.OK);
         }catch (RuntimeException e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);

@@ -24,8 +24,8 @@ public class Plan {
     @Column(nullable = false)
     private int meses;
 
-    @OneToMany(targetEntity = Estudiantes.class, fetch = FetchType.LAZY, mappedBy = "plan")
-    private List<Estudiantes> plan;
+    @OneToMany(targetEntity = Estudiante.class, fetch = FetchType.LAZY, mappedBy = "plan")
+    private List<Estudiante> plan;
 
 
     @JsonCreator

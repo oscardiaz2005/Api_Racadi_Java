@@ -24,8 +24,8 @@ public class Cuenta {
     @Column(nullable = false)
     private long dias_mora;
 
-    @ManyToOne(targetEntity = Estudiantes.class)
-    private Estudiantes documento_cuenta;
+    @ManyToOne(targetEntity = Estudiante.class)
+    private Estudiante documento_cuenta;
 
     @OneToMany(targetEntity = Pago.class, fetch = FetchType.LAZY, mappedBy = "cuenta_documento")
     private List<Pago> cuenta;
@@ -36,7 +36,7 @@ public class Cuenta {
 
     public Cuenta (){}
 
-    public Cuenta(long pagare, long saldo, long saldo_minimo, Date fecha_proximo_pago, long dias_mora, Estudiantes documento_cuenta) {
+    public Cuenta(long pagare, long saldo, long saldo_minimo, Date fecha_proximo_pago, long dias_mora, Estudiante documento_cuenta) {
         this.pagare = pagare;
         this.saldo = saldo;
         this.saldo_minimo = saldo_minimo;
@@ -85,11 +85,11 @@ public class Cuenta {
         this.dias_mora = dias_mora;
     }
 
-    public Estudiantes getDocumento_cuenta() {
+    public Estudiante getDocumento_cuenta() {
         return documento_cuenta;
     }
 
-    public void setDocumento_cuenta(Estudiantes documento_cuenta) {
+    public void setDocumento_cuenta(Estudiante documento_cuenta) {
         this.documento_cuenta = documento_cuenta;
     }
 }

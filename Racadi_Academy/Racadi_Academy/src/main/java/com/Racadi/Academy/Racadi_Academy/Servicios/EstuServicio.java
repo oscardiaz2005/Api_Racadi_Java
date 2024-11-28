@@ -1,6 +1,6 @@
 package com.Racadi.Academy.Racadi_Academy.Servicios;
 
-import com.Racadi.Academy.Racadi_Academy.Entidades.Estudiantes;
+import com.Racadi.Academy.Racadi_Academy.Entidades.Estudiante;
 import com.Racadi.Academy.Racadi_Academy.Repositorios.RepositorioEstudiante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,17 +14,17 @@ public class EstuServicio {
     @Autowired
     private RepositorioEstudiante repositorioEstudiante;
 
-    public Estudiantes agregar(Estudiantes estu) {
+    public Estudiante agregar(Estudiante estu) {
         return repositorioEstudiante.save((estu));
 
     }
-        public List<Estudiantes> listaEstudiantes(){
+        public List<Estudiante> listaEstudiantes(){
             return repositorioEstudiante.findAll();
         }
 
 
         //Metodo para actualizar un administrador
-        public Estudiantes actualizarEstu(String documento, Estudiantes estu){
+        public Estudiante actualizarEstu(String documento, Estudiante estu){
             return repositorioEstudiante.findById(documento).map(estudianteExistente -> {
                 estudianteExistente.setNombre(estu.getNombre());
                 estudianteExistente.setApellido(estu.getApellido());

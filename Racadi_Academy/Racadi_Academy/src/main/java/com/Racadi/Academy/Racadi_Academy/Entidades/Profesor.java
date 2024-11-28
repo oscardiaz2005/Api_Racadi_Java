@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-public class Profesores {
+public class Profesor {
 
     @Id
     private String documento;
@@ -62,11 +62,11 @@ public class Profesores {
     private List<Clase> clase_profe;
 
 
-    public Profesores(){
+    public Profesor(){
 
     }
 
-    public Profesores(String documento, String tipo_documento, String nombre, String apellido, Date fecha_nacimiento, com.Racadi.Academy.Racadi_Academy.Entidades.genero genero, String celular, String correo, String direccion, String usuario, String contrasena, String rol) {
+    public Profesor(String documento, String tipo_documento, String nombre, String apellido, Date fecha_nacimiento, com.Racadi.Academy.Racadi_Academy.Entidades.genero genero, String celular, String correo, String direccion, String usuario, String contrasena, String rol) {
         this.documento = documento;
         this.tipo_documento = tipo_documento;
         this.nombre = nombre;

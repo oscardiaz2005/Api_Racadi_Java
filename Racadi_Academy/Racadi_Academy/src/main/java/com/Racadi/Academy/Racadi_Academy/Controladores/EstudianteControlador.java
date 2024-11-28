@@ -1,6 +1,6 @@
 package com.Racadi.Academy.Racadi_Academy.Controladores;
 
-import com.Racadi.Academy.Racadi_Academy.Entidades.Estudiantes;
+import com.Racadi.Academy.Racadi_Academy.Entidades.Estudiante;
 import com.Racadi.Academy.Racadi_Academy.Entidades.Plan;
 import com.Racadi.Academy.Racadi_Academy.Repositorios.RepositorioEstudiante;
 import com.Racadi.Academy.Racadi_Academy.Repositorios.RepositorioPlan;
@@ -34,7 +34,7 @@ public class EstudianteControlador {
 
 
     @PostMapping()
-    public ResponseEntity<?> agregarEstudiante(@RequestBody Estudiantes estudiante) {
+    public ResponseEntity<?> agregarEstudiante(@RequestBody Estudiante estudiante) {
         // Verificar si el plan existe en la base de datos
         Optional<Plan> planOptional = Optional.ofNullable(repositorioPlan.findByNombre(estudiante.getPlan().getNombre()));
 
@@ -61,16 +61,16 @@ public class EstudianteControlador {
 
 
     @GetMapping
-        public ResponseEntity<List<Estudiantes>> listadoEstu(){
-            List<Estudiantes> lista = estuServicio.listaEstudiantes();
+        public ResponseEntity<List<Estudiante>> listadoEstu(){
+            List<Estudiante> lista = estuServicio.listaEstudiantes();
             return new ResponseEntity<>(lista, HttpStatus.OK);
         }
 
 
         @PutMapping("/{documento}")
-        public ResponseEntity<Estudiantes> actualizarEstu(@PathVariable String documento, @RequestBody Estudiantes estu){
+        public ResponseEntity<Estudiante> actualizarEstu(@PathVariable String documento, @RequestBody Estudiante estu){
             try{
-                Estudiantes actualizado=estuServicio.actualizarEstu(documento,estu);
+                Estudiante actualizado=estuServicio.actualizarEstu(documento,estu);
                 return new ResponseEntity<>(actualizado,HttpStatus.OK);
             }catch (RuntimeException e){
                 return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
@@ -88,7 +88,7 @@ public class EstudianteControlador {
     @GetMapping("/{documento}")
     public ResponseEntity<?> buscarEstudiantePorDocumento(@PathVariable String documento) {
         // Buscar el estudiante por documento
-        Optional<Estudiantes> estudianteOptional = repositorioEstudiante.findById(documento);
+        Optional<Estudiante> estudianteOptional = repositorioEstudiante.findById(documento);
 
         // Verificar si el estudiante existe
         if (estudianteOptional.isEmpty()) {

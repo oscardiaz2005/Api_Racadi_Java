@@ -1,8 +1,8 @@
 package com.Racadi.Academy.Racadi_Academy.Repositorios;
 
-import com.Racadi.Academy.Racadi_Academy.Entidades.Estudiantes;
+import com.Racadi.Academy.Racadi_Academy.Entidades.Estudiante;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RepositorioEstudiante extends JpaRepository<Estudiantes,String> {
-    Estudiantes findByDocumento(String documento);
+public interface RepositorioEstudiante extends JpaRepository<Estudiante,String> {
+    Estudiante findByDocumento(String documento);
 }

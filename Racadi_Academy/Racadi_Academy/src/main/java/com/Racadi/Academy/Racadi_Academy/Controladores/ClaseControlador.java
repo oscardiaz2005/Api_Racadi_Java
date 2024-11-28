@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/Clases")
@@ -38,17 +39,19 @@ public class ClaseControlador {
         return new ResponseEntity<>(guardarClase, HttpStatus.CREATED);
     }
 
-    @GetMapping("/buscar")
-    public ResponseEntity<?> obtenerClasesPorSedeYNivel(@RequestParam String sede, @RequestParam String nivel) {
+    @GetMapping("/obtenerclasesestudiante/{sede}/{nivel}")
+    public ResponseEntity<?> obtenerClasesEstudiante(@PathVariable String sede, @PathVariable String nivel) {
         try {
-            // Convertir el String `sede` a un Enum `Sede`
-            Sede sedeEnum = Sede.valueOf(sede.trim().toUpperCase());  // Cambio de `toLowerCase` a `toUpperCase` para evitar errores de conversión.
+            // Validar y convertir la sede al Enum correspondiente
+            Sede sedeEnum = Sede.valueOf(sede.trim().toLowerCase());
 
-            // Buscar las clases con la sede y nivel proporcionados
-            List<Clase> clases = claseServicio.obtenerPorSedeYNivel(sedeEnum, nivel);
+            // Obtener las clases con los detalles requeridos
+            List<Map<String, Object>> clases = claseServicio.obtenerClasesConDetalles(sedeEnum, nivel);
 
+            // Verificar si hay resultados
             if (clases.isEmpty()) {
-                return new ResponseEntity<>("No se encontraron clases para la sede y nivel especificados.", HttpStatus.NOT_FOUND);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("No Hay Clases Para la Sede " + sede + " y nivel " + nivel + " esta semana");
             }
 
             return new ResponseEntity<>(clases, HttpStatus.OK);
@@ -56,6 +59,10 @@ public class ClaseControlador {
             // Manejar caso de sede inválida
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("La sede proporcionada no es válida. Valores permitidos: " + List.of(Sede.values()));
+        } catch (Exception e) {
+            // Manejar errores generales
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
 }

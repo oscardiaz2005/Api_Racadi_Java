@@ -1,7 +1,6 @@
 package com.Racadi.Academy.Racadi_Academy.Entidades;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 public class RegistroEstudianteNivel {
@@ -32,8 +31,8 @@ public class RegistroEstudianteNivel {
     @ManyToOne(targetEntity = Nivel.class)
     private Nivel nivel;
 
-    @ManyToOne(targetEntity = Estudiantes.class)
-    private Estudiantes documento_estudiante;
+    @ManyToOne(targetEntity = Estudiante.class)
+    private Estudiante documento_estudiante;
 
     public Nivel getNivel() {
         return nivel;
@@ -45,7 +44,7 @@ public class RegistroEstudianteNivel {
 
     public RegistroEstudianteNivel() {}
 
-    public RegistroEstudianteNivel(String documento, Float speaking, Float listening, Float reading, Float writing, Float nota_evaluacion, boolean aprobacion, Nivel nivel, Estudiantes documento_estudiante) {
+    public RegistroEstudianteNivel(String documento, Float speaking, Float listening, Float reading, Float writing, Float nota_evaluacion, boolean aprobacion, Nivel nivel, Estudiante documento_estudiante) {
         this.documento = documento;
         this.speaking = speaking;
         this.listening = listening;
@@ -113,11 +112,11 @@ public class RegistroEstudianteNivel {
         this.aprobacion = aprobacion;
     }
 
-    public Estudiantes getDocumento_estudiante() {
+    public Estudiante getDocumento_estudiante() {
         return documento_estudiante;
     }
 
-    public void setDocumento_estudiante(Estudiantes documento_estudiante) {
+    public void setDocumento_estudiante(Estudiante documento_estudiante) {
         this.documento_estudiante = documento_estudiante;
     }
 

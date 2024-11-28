@@ -1,7 +1,7 @@
 package com.Racadi.Academy.Racadi_Academy.Servicios;
 
 
-import com.Racadi.Academy.Racadi_Academy.Entidades.Profesores;
+import com.Racadi.Academy.Racadi_Academy.Entidades.Profesor;
 import com.Racadi.Academy.Racadi_Academy.Repositorios.RepositorioProfesor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,21 +14,21 @@ public class ProfeServicio {
     @Autowired
     private RepositorioProfesor repositorioProfesor;
 
-    public Profesores agregar(Profesores profe){
+    public Profesor agregar(Profesor profe){
         return repositorioProfesor.save(profe);
     }
 
 
-    public List<Profesores> listaProfesores(){
+    public List<Profesor> listaProfesores(){
         return repositorioProfesor.findAll();
     }
 
-    public List<Profesores> buscarPorNombre(String nombre) {
+    public List<Profesor> buscarPorNombre(String nombre) {
         return repositorioProfesor.findByNombreContainingIgnoreCase(nombre);
     }
 
     //Metodo para actualizar un administrador
-    public Profesores actualizarProfe(String documento, Profesores profe){
+    public Profesor actualizarProfe(String documento, Profesor profe){
         return repositorioProfesor.findById(documento).map(profesorExistente -> {
             profesorExistente.setNombre(profe.getNombre());
             profesorExistente.setApellido(profe.getApellido());

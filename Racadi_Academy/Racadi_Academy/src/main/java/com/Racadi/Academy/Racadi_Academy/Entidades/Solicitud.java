@@ -24,8 +24,8 @@ public class Solicitud {
     @Temporal(TemporalType.DATE)
     private Date fecha_creacion; // Cambiado a Date
 
-    @ManyToOne(targetEntity = Estudiantes.class)
-    private Estudiantes documento;
+    @ManyToOne(targetEntity = Estudiante.class)
+    private Estudiante documento;
 
 
 
@@ -34,7 +34,7 @@ public class Solicitud {
         this.fecha_creacion = new Date(); // Inicializar con la fecha actual
     }
 
-    public Solicitud(long id_solicitud, String descripcion, String respuesta, boolean contestacion, Date fecha_creacion, Estudiantes documento) {
+    public Solicitud(long id_solicitud, String descripcion, String respuesta, boolean contestacion, Date fecha_creacion, Estudiante documento) {
         this.id_solicitud = id_solicitud;
         this.descripcion = descripcion;
         this.respuesta = respuesta;
@@ -89,11 +89,11 @@ public class Solicitud {
         return formato.format(fecha_creacion); // Usar fecha_creacion
     }
 
-    public Estudiantes getDocumento() {
+    public Estudiante getDocumento() {
         return documento;
     }
 
-    public void setDocumento(Estudiantes documento) {
+    public void setDocumento(Estudiante documento) {
         this.documento = documento;
     }
 

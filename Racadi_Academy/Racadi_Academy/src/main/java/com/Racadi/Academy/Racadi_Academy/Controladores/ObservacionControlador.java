@@ -2,7 +2,7 @@ package com.Racadi.Academy.Racadi_Academy.Controladores;
 
 
 import com.Racadi.Academy.Racadi_Academy.DTOS.ObservacionDTO;
-import com.Racadi.Academy.Racadi_Academy.Entidades.Estudiantes;
+import com.Racadi.Academy.Racadi_Academy.Entidades.Estudiante;
 import com.Racadi.Academy.Racadi_Academy.Entidades.Observacion;
 import com.Racadi.Academy.Racadi_Academy.Repositorios.RepositorioEstudiante;
 import com.Racadi.Academy.Racadi_Academy.Servicios.ObservacionServicio;
@@ -54,7 +54,7 @@ public class ObservacionControlador {
 
 
         // Buscar al estudiante en la base de datos
-        Estudiantes estudiante = repositorioEstudiante.findByDocumento(documento);
+        Estudiante estudiante = repositorioEstudiante.findByDocumento(documento);
         if (estudiante == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -80,7 +80,7 @@ public class ObservacionControlador {
     @GetMapping("/{documento}")
     public ResponseEntity<Map<String, Object>> obtenerDatosPorDocumento(@PathVariable String documento) {
         // Buscar al estudiante en la base de datos
-        Estudiantes estudiante = repositorioEstudiante.findByDocumento(documento);
+        Estudiante estudiante = repositorioEstudiante.findByDocumento(documento);
         if (estudiante == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

@@ -37,8 +37,8 @@ public class Clase {
     private int cupos;
 
 
-    @ManyToOne(targetEntity = Profesores.class)
-    private Profesores profesor;
+    @ManyToOne(targetEntity = Profesor.class)
+    private Profesor profesor;
 
     @ManyToOne(targetEntity = Administrador.class)
     private Administrador administrador;
@@ -51,7 +51,7 @@ public class Clase {
 
     }
 
-    public Clase(long id_clase, Sede sede, String nivel, LocalTime hora_inicio, LocalTime hora_fin, LocalDate fecha, String documento_profesor, int cupos, Profesores profesor) {
+    public Clase(long id_clase, Sede sede, String nivel, LocalTime hora_inicio, LocalTime hora_fin, LocalDate fecha, String documento_profesor, int cupos, Profesor profesor) {
         this.id_clase = id_clase;
         this.sede = sede;
         this.nivel = nivel;
@@ -83,7 +83,7 @@ public class Clase {
         return nivel;
     }
 
-    public void setNivel(String nivel_enum) {
+    public void setNivel(String nivel) {
         this.nivel = nivel;
     }
 
@@ -127,11 +127,11 @@ public class Clase {
         this.cupos = cupos;
     }
 
-    public Profesores getProfesor() {
+    public Profesor getProfesor() {
         return profesor;
     }
 
-    public void setProfesor(Profesores profesor) {
+    public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
     }
 
@@ -142,4 +142,6 @@ public class Clase {
     public void setAdministrador(Administrador administrador) {
         this.administrador = administrador;
     }
+
+
 }

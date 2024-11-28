@@ -26,13 +26,13 @@ public class Observacion {
 
     @ManyToOne
     @JoinColumn(name = "documento", referencedColumnName = "documento")
-    private Estudiantes estudiante;
+    private Estudiante estudiante;
 
     public Observacion(){
 
     }
 
-    public Observacion(long observacion, Date fecha, String descripcion, String creada_por, Estudiantes estudiante) {
+    public Observacion(long observacion, Date fecha, String descripcion, String creada_por, Estudiante estudiante) {
         this.observacion = observacion;
         this.fecha = fecha;
         this.descripcion = descripcion;
@@ -72,11 +72,11 @@ public class Observacion {
         this.creada_por = creada_por;
     }
 
-    public Estudiantes getEstudiante() {
+    public Estudiante getEstudiante() {
         return estudiante;
     }
 
-    public void setEstudiante(Estudiantes estudiante) {
+    public void setEstudiante(Estudiante estudiante) {
         this.estudiante = estudiante;
     }
 }

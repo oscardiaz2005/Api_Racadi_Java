@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "estudiantes")
-public class Estudiantes {
+public class Estudiante {
 
     @Id
     private String documento;
@@ -92,11 +92,11 @@ public class Estudiantes {
     @JoinColumn(name = "plan", referencedColumnName = "nombre", nullable = false)
     private Plan plan;
 
-    public Estudiantes(){
+    public Estudiante(){
 
     }
 
-    public Estudiantes(String documento, String tipo_documento, String nombre, String apellido, Date fecha_nacimiento, com.Racadi.Academy.Racadi_Academy.Entidades.genero genero, String celular, String correo, String direccion, Sede sede, String usuario, String contrasena, String nivel, LocalDate fecha_inscripcion, String foto_perfil, String rol, Plan plan) {
+    public Estudiante(String documento, String tipo_documento, String nombre, String apellido, Date fecha_nacimiento, com.Racadi.Academy.Racadi_Academy.Entidades.genero genero, String celular, String correo, String direccion, Sede sede, String usuario, String contrasena, String nivel, LocalDate fecha_inscripcion, String foto_perfil, String rol, Plan plan) {
         this.documento = documento;
         this.tipo_documento = tipo_documento;
         this.nombre = nombre;
