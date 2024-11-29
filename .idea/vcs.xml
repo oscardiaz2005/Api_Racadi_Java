@@ -3,7 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/../../" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Racadi_Academy/Racadi_Academy" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Racadi_Academy/Racadi_Academy/Api_Racadi_Java" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Api_Racadi_Java" vcs="Git" />
   </component>
 </project>
