@@ -1,38 +1,69 @@
 package com.Racadi.Academy.Racadi_Academy.Entidades;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class RegistroEstudianteNivel {
+@Table(name = "registro_estudiante_nivel")
+public class RegistroEstudianteNivel implements Serializable {
 
     @Id
-    @Column(nullable = false, length = 20)
-    private String documento;
+    @ManyToOne
+    @JoinColumn(name = "documento", referencedColumnName = "documento", nullable = false)
+    private Estudiante estudiante;
 
-    @Column(nullable = false)
-    private Float speaking;
-
-    @Column(nullable = false)
-    private Float listening;
-
-    @Column(nullable = false)
-    private Float reading;
-
-    @Column(nullable = false)
-    private Float writing;
-
-    @Column(nullable = false)
-    private Float nota_evaluacion;
-
-
-    @Column(columnDefinition = "boolean default false")
-    private boolean aprobacion = false;
-
-    @ManyToOne(targetEntity = Nivel.class)
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "nivel", referencedColumnName = "nombre_nivel", nullable = false)
     private Nivel nivel;
 
-    @ManyToOne(targetEntity = Estudiante.class)
-    private Estudiante documento_estudiante;
+    @Column(nullable = false)
+    private float speaking;
+
+    @Column(nullable = false)
+    private float listening;
+
+    @Column(nullable = false)
+    private float reading;
+
+    @Column(nullable = false)
+    private float writing;
+
+    @Column(nullable = false)
+    private float grammar;
+
+    @Column(nullable = true)
+    private Float notaEvaluacion;
+
+    @Column(nullable = true)
+    private Boolean aprobacion;
+
+    // Constructor vacío
+    public RegistroEstudianteNivel() {
+    }
+
+    // Constructor con parámetros
+    public RegistroEstudianteNivel(Estudiante estudiante, Nivel nivel, float speaking, float listening, float reading,
+                                   float writing, float grammar, Float notaEvaluacion, Boolean aprobacion) {
+        this.estudiante = estudiante;
+        this.nivel = nivel;
+        this.speaking = speaking;
+        this.listening = listening;
+        this.reading = reading;
+        this.writing = writing;
+        this.grammar = grammar;
+        this.notaEvaluacion = notaEvaluacion;
+        this.aprobacion = aprobacion;
+    }
+
+    // Getters y setters
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
 
     public Nivel getNivel() {
         return nivel;
@@ -42,82 +73,68 @@ public class RegistroEstudianteNivel {
         this.nivel = nivel;
     }
 
-    public RegistroEstudianteNivel() {}
-
-    public RegistroEstudianteNivel(String documento, Float speaking, Float listening, Float reading, Float writing, Float nota_evaluacion, boolean aprobacion, Nivel nivel, Estudiante documento_estudiante) {
-        this.documento = documento;
-        this.speaking = speaking;
-        this.listening = listening;
-        this.reading = reading;
-        this.writing = writing;
-        this.nota_evaluacion = nota_evaluacion;
-        this.aprobacion = aprobacion;
-        this.nivel = nivel;
-        this.documento_estudiante = documento_estudiante;
-    }
-
-    public String getDocumento() {
-        return documento;
-    }
-
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
-
-    public Float getSpeaking() {
+    public float getSpeaking() {
         return speaking;
     }
 
-    public void setSpeaking(Float speaking) {
+    public void setSpeaking(float speaking) {
         this.speaking = speaking;
     }
 
-    public Float getListening() {
+    public float getListening() {
         return listening;
     }
 
-    public void setListening(Float listening) {
+    public void setListening(float listening) {
         this.listening = listening;
     }
 
-    public Float getReading() {
+    public float getReading() {
         return reading;
     }
 
-    public void setReading(Float reading) {
+    public void setReading(float reading) {
         this.reading = reading;
     }
 
-    public Float getWriting() {
+    public float getWriting() {
         return writing;
     }
 
-    public void setWriting(Float writing) {
+    public void setWriting(float writing) {
         this.writing = writing;
     }
 
-    public Float getNota_evaluacion() {
-        return nota_evaluacion;
+    public float getGrammar() {
+        return grammar;
     }
 
-    public void setNota_evaluacion(Float nota_evaluacion) {
-        this.nota_evaluacion = nota_evaluacion;
+    public void setGrammar(float grammar) {
+        this.grammar = grammar;
     }
 
-    public boolean isAprobacion() {
+    public Float getNotaEvaluacion() {
+        return notaEvaluacion;
+    }
+
+    public void setNotaEvaluacion(Float notaEvaluacion) {
+        this.notaEvaluacion = notaEvaluacion;
+    }
+
+    public Boolean getAprobacion() {
         return aprobacion;
     }
 
-    public void setAprobacion(boolean aprobacion) {
+    public void setAprobacion(Boolean aprobacion) {
         this.aprobacion = aprobacion;
     }
 
-    public Estudiante getDocumento_estudiante() {
-        return documento_estudiante;
+    // Método para calcular automáticamente la nota de evaluación
+    @PrePersist
+    @PreUpdate
+    public void calcularNotaEvaluacion() {
+        this.notaEvaluacion = (this.speaking + this.listening + this.reading + this.writing + this.grammar) / 5.0f;
+        this.aprobacion = this.notaEvaluacion >= 3.0;
     }
-
-    public void setDocumento_estudiante(Estudiante documento_estudiante) {
-        this.documento_estudiante = documento_estudiante;
-    }
-
 }
+

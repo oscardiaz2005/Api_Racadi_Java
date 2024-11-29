@@ -1,95 +1,105 @@
 package com.Racadi.Academy.Racadi_Academy.Entidades;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
+@Table(name = "cuentas")
 public class Cuenta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long pagare;
+    @Column(nullable = false, length = 15)
+    private String documento;
+
+    @ManyToOne
+    @JoinColumn(name = "documento", referencedColumnName = "documento", insertable = false, updatable = false)
+    private Estudiante estudiante;
+
+    @Column(nullable = true)
+    private int pagare;
 
     @Column(nullable = false)
-    private long saldo;
+    private int saldo;
 
     @Column(nullable = false)
-    private long saldo_minimo;
+    private int pago_minimo;
 
     @Column(nullable = false)
-    private Date fecha_proximo_pago;
+    private java.sql.Date fecha_proximo_pago;
 
     @Column(nullable = false)
-    private long dias_mora;
-
-    @ManyToOne(targetEntity = Estudiante.class)
-    private Estudiante documento_cuenta;
-
-    @OneToMany(targetEntity = Pago.class, fetch = FetchType.LAZY, mappedBy = "cuenta_documento")
-    private List<Pago> cuenta;
+    private int dias_mora;
 
 
 
-
-
-    public Cuenta (){}
-
-    public Cuenta(long pagare, long saldo, long saldo_minimo, Date fecha_proximo_pago, long dias_mora, Estudiante documento_cuenta) {
-        this.pagare = pagare;
-        this.saldo = saldo;
-        this.saldo_minimo = saldo_minimo;
-        this.fecha_proximo_pago = fecha_proximo_pago;
-        this.dias_mora = dias_mora;
-        this.documento_cuenta = documento_cuenta;
+    public Cuenta() {
     }
 
-    public long getPagare() {
+    public Cuenta(String documento, int saldo, int pago_minimo, java.sql.Date fecha_proximo_pago, int dias_mora) {
+        this.documento = documento;
+        this.saldo = saldo;
+        this.pago_minimo = pago_minimo;
+        this.fecha_proximo_pago = fecha_proximo_pago;
+        this.dias_mora = dias_mora;
+    }
+
+    // Getters y setters
+    public String getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
+    }
+
+    public int getPagare() {
         return pagare;
     }
 
-    public void setPagare(long pagare) {
+    public void setPagare(int pagare) {
         this.pagare = pagare;
     }
 
-    public long getSaldo() {
+    public int getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(long saldo) {
+    public void setSaldo(int saldo) {
         this.saldo = saldo;
     }
 
-    public long getSaldo_minimo() {
-        return saldo_minimo;
+    public int getPago_minimo() {
+        return pago_minimo;
     }
 
-    public void setSaldo_minimo(long saldo_minimo) {
-        this.saldo_minimo = saldo_minimo;
+    public void setPago_minimo(int pago_minimo) {
+        this.pago_minimo = pago_minimo;
     }
 
     public Date getFecha_proximo_pago() {
         return fecha_proximo_pago;
     }
 
-    public void setFecha_proximo_pago(Date fecha_proximo_pago) {
+    public void setFecha_proximo_pago(java.sql.Date fecha_proximo_pago) {
         this.fecha_proximo_pago = fecha_proximo_pago;
     }
 
-    public long getDias_mora() {
+    public int getDias_mora() {
         return dias_mora;
     }
 
-    public void setDias_mora(long dias_mora) {
+    public void setDias_mora(int dias_mora) {
         this.dias_mora = dias_mora;
     }
 
-    public Estudiante getDocumento_cuenta() {
-        return documento_cuenta;
+    public Estudiante getEstudiante() {
+        return estudiante;
     }
 
-    public void setDocumento_cuenta(Estudiante documento_cuenta) {
-        this.documento_cuenta = documento_cuenta;
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
     }
 }

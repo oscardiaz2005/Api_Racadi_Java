@@ -1,26 +1,23 @@
 package com.Racadi.Academy.Racadi_Academy.Servicios;
 
 import com.Racadi.Academy.Racadi_Academy.Entidades.Nivel;
-import com.Racadi.Academy.Racadi_Academy.Repositorios.RepositorioNivel;
-import com.Racadi.Academy.Racadi_Academy.Repositorios.RepositorioPlan;
+import com.Racadi.Academy.Racadi_Academy.Repositorios.NivelRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 @Service
 public class NivelServicio {
 
     @Autowired
-    private RepositorioNivel repositorioNivel;
+    private NivelRepositorio nivelRepositorio;
 
-    public Nivel agregar(Nivel nivel){
-        return repositorioNivel.save(nivel);
-    }
-
-
-    public List<Nivel> listaNiveles(){
-        return repositorioNivel.findAll();
+    public List<String> obtenerNombresNiveles() {
+        List<Nivel> niveles = nivelRepositorio.findAll(); // Obtener todos los niveles
+        return niveles.stream()
+                .map(Nivel::getNombre_nivel) // E
+                .collect(Collectors.toList());
     }
 }

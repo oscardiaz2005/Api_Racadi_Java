@@ -1,19 +1,15 @@
 package com.Racadi.Academy.Racadi_Academy.Entidades;
 
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
+@Table(name = "planes")
 public class Plan {
-
 
     @Id
     @Column(nullable = false, length = 30)
-    private String nombre;
+    private String nombre; // El nombre del plan es la clave primaria
 
     @Column(nullable = false)
     private int horas_semanales;
@@ -24,32 +20,7 @@ public class Plan {
     @Column(nullable = false)
     private int meses;
 
-    @OneToMany(targetEntity = Estudiante.class, fetch = FetchType.LAZY, mappedBy = "plan")
-    private List<Estudiante> plan;
-
-
-    @JsonCreator
-    public static Plan fromString(String nombre) {
-        Plan plan = new Plan();
-        plan.setNombre(nombre);
-        return plan;
-    }
-
-    @JsonValue
-    public String toString() {
-        return nombre;
-    }
-
-    public Plan(){
-
-    }
-
-    public Plan(String nombre, int horas_semanales, int costo, int meses) {
-        this.nombre = nombre;
-        this.horas_semanales = horas_semanales;
-        this.costo = costo;
-        this.meses = meses;
-    }
+    // Constructor, Getters y Setters...
 
     public String getNombre() {
         return nombre;
@@ -83,3 +54,4 @@ public class Plan {
         this.meses = meses;
     }
 }
+

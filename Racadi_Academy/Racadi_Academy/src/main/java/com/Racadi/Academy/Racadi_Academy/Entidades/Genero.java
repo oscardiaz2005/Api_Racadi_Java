@@ -1,6 +1,7 @@
 package com.Racadi.Academy.Racadi_Academy.Entidades;
 
-public enum genero {
+public enum Genero {
     masculino,
-    femenino
+    femenino,
+    otro
 }

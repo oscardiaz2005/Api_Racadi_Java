@@ -1,20 +1,19 @@
 package com.Racadi.Academy.Racadi_Academy.Entidades;
 
-
 import jakarta.persistence.*;
-
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "profesores")
 public class Profesor {
 
     @Id
+    @Column(length = 15, nullable = false)
     private String documento;
 
-    @Column(nullable = false, length = 20)
-    private String tipo_documento;
+    @Column(name = "tipo_de_documento", nullable = false, length = 30)
+    private String tipoDeDocumento;
 
     @Column(nullable = false, length = 20)
     private String nombre;
@@ -22,174 +21,174 @@ public class Profesor {
     @Column(nullable = false, length = 20)
     private String apellido;
 
-    @Column(nullable = false)
-    private Date fecha_nacimiento;
+    @Column(name = "fecha_nacimiento", nullable = false)
+    private LocalDate fechaNacimiento;
 
     @Enumerated(EnumType.STRING)
-    private genero genero;
+    private Genero genero;
 
-
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 10)
     private String celular;
 
-    @Column(nullable = false, length = 120)
+    @Column(nullable = false, length = 30)
     private String correo;
 
-
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 200)
     private String direccion;
 
-
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 30)
     private String usuario;
 
+    @Column(nullable = false, length = 60)
+    private String contraseña;
 
-    @Column(nullable = false, length = 20)
-    private String contrasena;
+    @Column(name = "fecha_contratacion", nullable = true)
+    private LocalDate fechaContratacion;
 
-    @Column(nullable = true)
-    private LocalDate fecha_contratacion;
+    @Column(name = "foto_perfil", nullable = true, length = 300)
+    private String fotoPerfil;
 
-    @Column(nullable = true, length = 300)
-    private String foto_perfil;
-
-    @Column(nullable = false, columnDefinition = "VARCHAR(20) DEFAULT 'profesor'")
-    private String rol;
-
+    @OneToMany(mappedBy = "profesor", fetch = FetchType.LAZY)
+    private List<Clase> clases;
 
 
-    @OneToMany(targetEntity = Clase.class, fetch = FetchType.LAZY, mappedBy = "profesor")
-    private List<Clase> clase_profe;
-
-
-    public Profesor(){
-
+    public Profesor() {
     }
 
-    public Profesor(String documento, String tipo_documento, String nombre, String apellido, Date fecha_nacimiento, com.Racadi.Academy.Racadi_Academy.Entidades.genero genero, String celular, String correo, String direccion, String usuario, String contrasena, String rol) {
+    public Profesor(String documento, String tipoDeDocumento, String nombre, String apellido, LocalDate fechaNacimiento, Genero genero, String celular, String correo, String direccion, String usuario, String contraseña, LocalDate fechaContratacion, String fotoPerfil) {
         this.documento = documento;
-        this.tipo_documento = tipo_documento;
+        this.tipoDeDocumento = tipoDeDocumento;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.fecha_nacimiento = fecha_nacimiento;
+        this.fechaNacimiento = fechaNacimiento;
         this.genero = genero;
         this.celular = celular;
         this.correo = correo;
         this.direccion = direccion;
         this.usuario = usuario;
-        this.contrasena = contrasena;
-        this.rol = rol;
+        this.contraseña = contraseña;
+        this.fechaContratacion = fechaContratacion != null ? fechaContratacion : LocalDate.now();
+        this.fotoPerfil = fotoPerfil;
     }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.fechaContratacion == null) {
+            this.fechaContratacion = LocalDate.now();
+        }
+    }
+
+    // Getters y Setters
 
     public String getDocumento() {
         return documento;
     }
 
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
-
-    public String getTipo_documento() {
-        return tipo_documento;
-    }
-
-    public void setTipo_documento(String tipo_documento) {
-        this.tipo_documento = tipo_documento;
+    public String getTipoDeDocumento() {
+        return tipoDeDocumento;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public String getApellido() {
         return apellido;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public Genero getGenero() {
+        return genero;
     }
 
     public String getCelular() {
         return celular;
     }
 
-    public void setCelular(String celular) {
-        this.celular = celular;
-    }
-
     public String getCorreo() {
         return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public Date getFecha_nacimiento() {
-        return fecha_nacimiento;
-    }
-
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
-        this.fecha_nacimiento = fecha_nacimiento;
-    }
-
-    public com.Racadi.Academy.Racadi_Academy.Entidades.genero getGenero() {
-        return genero;
-    }
-
-    public void setGenero(com.Racadi.Academy.Racadi_Academy.Entidades.genero genero) {
-        this.genero = genero;
     }
 
     public String getDireccion() {
         return direccion;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public LocalDate getFechaContratacion() {
+        return fechaContratacion;
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
+    }
+
+    public void setTipoDeDocumento(String tipoDeDocumento) {
+        this.tipoDeDocumento = tipoDeDocumento;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
 
-    public LocalDate getFecha_contratacion() {
-        return fecha_contratacion;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
-    public void setFecha_contratacion(LocalDate fecha_contratacion) {
-        this.fecha_contratacion = fecha_contratacion;
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 
-    public String getFoto_perfil() {
-        return foto_perfil;
+    public void setFechaContratacion(LocalDate fechaContratacion) {
+        this.fechaContratacion = fechaContratacion;
     }
 
-    public void setFoto_perfil(String foto_perfil) {
-        this.foto_perfil = foto_perfil;
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
-    public String getRol() {
-        return rol;
+    public List<Clase> getClases() {
+        return clases;
     }
 
-    public void setRol(String rol) {
-        this.rol = rol;
+    public void setClases(List<Clase> clases) {
+        this.clases = clases;
     }
 }

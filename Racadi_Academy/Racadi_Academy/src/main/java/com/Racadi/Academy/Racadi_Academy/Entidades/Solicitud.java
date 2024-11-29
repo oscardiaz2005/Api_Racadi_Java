@@ -1,15 +1,19 @@
 package com.Racadi.Academy.Racadi_Academy.Entidades;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
+@Table(name = "solicitudes")
 public class Solicitud {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_solicitud;
+    private int id_solicitud;
 
     @Column(nullable = false, length = 400)
     private String descripcion;
@@ -22,19 +26,22 @@ public class Solicitud {
 
     @Column(updatable = false, nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date fecha_creacion; // Cambiado a Date
+    private Date fecha_creacion;
 
-    @ManyToOne(targetEntity = Estudiante.class)
+    @ManyToOne
+    @JoinColumn(name = "documento", referencedColumnName = "documento", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_estudiante_solicitud"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Estudiante documento;
+;
 
-
-
-
+    // Constructor vacío
     public Solicitud() {
-        this.fecha_creacion = new Date(); // Inicializar con la fecha actual
+        this.fecha_creacion = new Date();  // Inicializar con la fecha actual
     }
 
-    public Solicitud(long id_solicitud, String descripcion, String respuesta, boolean contestacion, Date fecha_creacion, Estudiante documento) {
+    // Constructor con parámetros
+    public Solicitud(int id_solicitud, String descripcion, String respuesta, boolean contestacion, Date fecha_creacion, Estudiante documento) {
         this.id_solicitud = id_solicitud;
         this.descripcion = descripcion;
         this.respuesta = respuesta;
@@ -43,11 +50,12 @@ public class Solicitud {
         this.documento = documento;
     }
 
-    public long getId_solicitud() {
+    // Getters y setters
+    public int getId_solicitud() {
         return id_solicitud;
     }
 
-    public void setId_solicitud(long id_solicitud) {
+    public void setId_solicitud(int id_solicitud) {
         this.id_solicitud = id_solicitud;
     }
 
@@ -79,14 +87,14 @@ public class Solicitud {
         return fecha_creacion;
     }
 
-    // Si realmente necesitas un setter para fecha_creacion, puedes dejarlo
     public void setFecha_creacion(Date fecha_creacion) {
         this.fecha_creacion = fecha_creacion;
     }
 
+    // Método para formatear la fecha
     public String fecha() {
         SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-        return formato.format(fecha_creacion); // Usar fecha_creacion
+        return formato.format(fecha_creacion);  // Usar fecha_creacion
     }
 
     public Estudiante getDocumento() {
@@ -96,6 +104,5 @@ public class Solicitud {
     public void setDocumento(Estudiante documento) {
         this.documento = documento;
     }
-
-
 }
+

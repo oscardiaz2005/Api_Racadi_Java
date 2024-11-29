@@ -5,10 +5,11 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name ="niveles" )
 public class Nivel {
 
     @Id
-    @Column(length = 20, nullable = false)
+    @Column(length = 30, nullable = false)
     private String nombre_nivel;
 
     @Column(length = 300, nullable = false)

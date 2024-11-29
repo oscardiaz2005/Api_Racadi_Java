@@ -2,39 +2,44 @@ package com.Racadi.Academy.Racadi_Academy.Entidades;
 
 import jakarta.persistence.*;
 
-
 @Entity
+@Table(name = "comunicados")
 public class Comunicado {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_comunicado;
 
-    @Column(nullable = false, length = 20)
+    @ManyToOne
+    @JoinColumn(name = "administrador_id", referencedColumnName = "administrador_id", nullable = true,
+            foreignKey = @ForeignKey(name = "fk_administrador_id"))
+    private Administrador administrador_id;
+
+
+    @Column(nullable = false, length = 400)
     private String titulo;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 400)
     private String descripcion;
 
-    @Column(nullable = false, length = 300)
+    @Column(nullable = true, length = 300)
     private String foto;
 
-    @ManyToOne(targetEntity = Administrador.class)
-    private Administrador documento_admin;
 
-
-
-    public Comunicado(){
+    public Comunicado() {
 
     }
 
-    public Comunicado(long id_comunicado, String titulo, String descripcion, String foto, Administrador documento_admin) {
+    // Constructor con parámetros
+    public Comunicado(long id_comunicado, String titulo, String descripcion, String foto, Administrador administrador_id) {
         this.id_comunicado = id_comunicado;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.foto = foto;
-        this.documento_admin = documento_admin;
+        this.administrador_id = administrador_id;
     }
 
+    // Getters y setters
     public long getId_comunicado() {
         return id_comunicado;
     }
@@ -67,11 +72,11 @@ public class Comunicado {
         this.foto = foto;
     }
 
-    public Administrador getDocumento_admin() {
-        return documento_admin;
+    public Administrador getAdministrador_id() {
+        return administrador_id;
     }
 
     public void setDocumento_admin(Administrador documento_admin) {
-        this.documento_admin = documento_admin;
+        this.administrador_id = administrador_id;
     }
 }

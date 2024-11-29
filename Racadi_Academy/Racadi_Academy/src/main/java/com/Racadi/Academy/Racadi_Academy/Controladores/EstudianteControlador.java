@@ -1,103 +1,75 @@
 package com.Racadi.Academy.Racadi_Academy.Controladores;
 
-import com.Racadi.Academy.Racadi_Academy.Entidades.Estudiante;
+import com.Racadi.Academy.Racadi_Academy.Entidades.Genero;
 import com.Racadi.Academy.Racadi_Academy.Entidades.Plan;
-import com.Racadi.Academy.Racadi_Academy.Repositorios.RepositorioEstudiante;
-import com.Racadi.Academy.Racadi_Academy.Repositorios.RepositorioPlan;
-import com.Racadi.Academy.Racadi_Academy.Servicios.EstuServicio;
-import com.Racadi.Academy.Racadi_Academy.Servicios.PlanServicio;
+import com.Racadi.Academy.Racadi_Academy.Entidades.Sede;
+import com.Racadi.Academy.Racadi_Academy.Servicios.EstudianteServicio;
+import com.Racadi.Academy.Racadi_Academy.Entidades.Estudiante;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Optional;
-
+import java.sql.Date;
 
 @RestController
-@RequestMapping("/Estudiante")
 public class EstudianteControlador {
 
     @Autowired
-    private RepositorioPlan repositorioPlan;
+    private EstudianteServicio estudianteServicio;
 
+    @PostMapping("/anadirestudiante")
+    public ResponseEntity<String> añadirEstudiante(@RequestParam String documento,
+                                                   @RequestParam String tipo_de_documento,
+                                                   @RequestParam String nombre,
+                                                   @RequestParam String apellido,
+                                                   @RequestParam Date fecha_nacimiento,
+                                                   @RequestParam Genero genero,
+                                                   @RequestParam String celular,
+                                                   @RequestParam String correo,
+                                                   @RequestParam String direccion,
+                                                   @RequestParam Sede sede,
+                                                   @RequestParam String usuario,
+                                                   @RequestParam String contraseña,
+                                                   @RequestParam String nivel_actual,
+                                                   @RequestParam String plan,
+                                                   @RequestParam(required = false) MultipartFile file) {
 
-    @Autowired
-    private RepositorioEstudiante repositorioEstudiante;
-
-    @Autowired
-    private EstuServicio estuServicio;
-
-    @Autowired
-    private PlanServicio planServicio;
-
-
-    @PostMapping()
-    public ResponseEntity<?> agregarEstudiante(@RequestBody Estudiante estudiante) {
-        // Verificar si el plan existe en la base de datos
-        Optional<Plan> planOptional = Optional.ofNullable(repositorioPlan.findByNombre(estudiante.getPlan().getNombre()));
-
-        if (planOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("El plan especificado no existe.");
+        // Verificar si el documento ya está en uso
+        Estudiante existeDocumento = estudianteServicio.findByDocumento(documento);
+        if (existeDocumento != null) {
+            return ResponseEntity.badRequest().body("El documento ya está en uso.");
         }
 
-        // Asociar el plan al estudiante
-        estudiante.setPlan(planOptional.get());
-
-        // Verificar si el plan no es nulo antes de guardar el estudiante
-        if (estudiante.getPlan() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("El campo plan no puede ser nulo.");
+        // Verificar si el usuario ya existe
+        if (estudianteServicio.usuarioExisteGlobalmente(usuario)) {
+            return ResponseEntity.badRequest().body("El usuario ya está en uso.");
         }
 
-        // Guardar el estudiante con el plan
-        repositorioEstudiante.save(estudiante);
+        // Verificar si la contraseña es válida
+        if (!estudianteServicio.verificarContraseña(contraseña)) {
+            return ResponseEntity.badRequest().body("La contraseña debe tener al menos 8 caracteres, incluyendo números, caracteres especiales y mayúsculas.");
+        }
 
-        return ResponseEntity.ok("Estudiante registrado con éxito.");
+        // Verificar si el celular es válido
+        if (!estudianteServicio.verificarCelular(celular)) {
+            return ResponseEntity.badRequest().body("Número de celular inválido, debe tener 10 dígitos.");
+        }
+
+        // Lógica para manejar la foto (opcional)
+        String fotoPerfilUrl = null;
+        if (file != null && !file.isEmpty()) {
+            // Guardar archivo y asignar URL de la imagen
+            fotoPerfilUrl = "path/to/folder/" + file.getOriginalFilename(); // Guardar imagen en el servidor
+        }
+
+        // Crear el estudiante
+        Estudiante nuevoEstudiante = estudianteServicio.crearEstudiante(documento, tipo_de_documento, nombre, apellido,
+                fecha_nacimiento, genero, celular, correo, direccion,
+                sede, usuario, contraseña, nivel_actual, plan,
+                fotoPerfilUrl);
+
+        return ResponseEntity.ok("Estudiante agregado exitosamente.");
     }
-
-
-
-    @GetMapping
-        public ResponseEntity<List<Estudiante>> listadoEstu(){
-            List<Estudiante> lista = estuServicio.listaEstudiantes();
-            return new ResponseEntity<>(lista, HttpStatus.OK);
-        }
-
-
-        @PutMapping("/{documento}")
-        public ResponseEntity<Estudiante> actualizarEstu(@PathVariable String documento, @RequestBody Estudiante estu){
-            try{
-                Estudiante actualizado=estuServicio.actualizarEstu(documento,estu);
-                return new ResponseEntity<>(actualizado,HttpStatus.OK);
-            }catch (RuntimeException e){
-                return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-            }
-        }
-
-
-        @DeleteMapping("/{documento}")
-        public  ResponseEntity<Void> eliminarEstu(@PathVariable String documento){
-
-            estuServicio.eliminarEstu(documento);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-    @GetMapping("/{documento}")
-    public ResponseEntity<?> buscarEstudiantePorDocumento(@PathVariable String documento) {
-        // Buscar el estudiante por documento
-        Optional<Estudiante> estudianteOptional = repositorioEstudiante.findById(documento);
-
-        // Verificar si el estudiante existe
-        if (estudianteOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("El estudiante con documento " + documento + " no fue encontrado.");
-        }
-
-        // Retornar el estudiante encontrado
-        return ResponseEntity.ok(estudianteOptional.get());
-    }
-    }
+}
 

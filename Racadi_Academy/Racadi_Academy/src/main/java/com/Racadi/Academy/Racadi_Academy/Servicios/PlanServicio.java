@@ -1,27 +1,22 @@
 package com.Racadi.Academy.Racadi_Academy.Servicios;
 
 import com.Racadi.Academy.Racadi_Academy.Entidades.Plan;
-import com.Racadi.Academy.Racadi_Academy.Repositorios.RepositorioPlan;
+import com.Racadi.Academy.Racadi_Academy.Repositorios.PlanRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlanServicio {
 
     @Autowired
-    private RepositorioPlan repositorioPlan;
+    private PlanRepositorio planRepositorio;
 
-    public Plan agregar(Plan plan){
-        return repositorioPlan.save(plan);
+    // Método para obtener los nombres de los planes
+    public List<String> obtenerNombrePlanes() {
+        List<Plan> planes = planRepositorio.findAll();
+        // Extraemos solo los nombres de los planes
+        return planes.stream().map(Plan::getNombre).collect(Collectors.toList());
     }
-
-    public List<Plan> listaPlanes(){return repositorioPlan.findAll();
-    }
-
-    public Plan buscarPorNombre(String nombre) {
-        return repositorioPlan.findByNombre(nombre);
-    }
-
 }

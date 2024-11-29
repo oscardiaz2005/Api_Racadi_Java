@@ -1,40 +1,38 @@
 package com.Racadi.Academy.Racadi_Academy.Entidades;
 
 import jakarta.persistence.*;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
+@Table(name = "asistencias")
 public class Asistencia {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_asistencia;
+    private int id_asistencia;
 
-    @Column(columnDefinition = "boolean default false")
-    private boolean asistencia = false;
-
-
-    @ManyToOne(targetEntity = Reserva.class)
+    @ManyToOne
+    @JoinColumn(name = "id_reserva", nullable = false,  foreignKey = @ForeignKey(name = "fk_reserva_asistencia"))
     private Reserva reserva;
 
+    @Column
+    private boolean asistencia = false;
 
-
-    public Asistencia(){
-
+    public Asistencia() {
     }
 
-    public Asistencia(long id_asistencia, boolean asistencia, Reserva reserva) {
+    public Asistencia(int id_asistencia, boolean asistencia, Reserva reserva) {
         this.id_asistencia = id_asistencia;
         this.asistencia = asistencia;
         this.reserva = reserva;
     }
 
-    public long getId_asistencia() {
+    public int getId_asistencia() {
         return id_asistencia;
     }
 
-    public void setId_asistencia(long id_asistencia) {
+    public void setId_asistencia(int id_asistencia) {
         this.id_asistencia = id_asistencia;
     }
 

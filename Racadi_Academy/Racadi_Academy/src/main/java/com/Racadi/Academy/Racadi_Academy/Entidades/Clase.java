@@ -1,21 +1,23 @@
 package com.Racadi.Academy.Racadi_Academy.Entidades;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-
 @Entity
+@Table(name = "clases")
 public class Clase {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_clase;
+    private int id_clase;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Sede sede;
 
     @Column(length = 20, nullable = false)
@@ -30,44 +32,47 @@ public class Clase {
     @Column(nullable = false)
     private LocalDate fecha;
 
-    @Column(length = 15, nullable = false)
-    private String documento_profesor;
+    @Column(name = "documento_profesor", nullable = false, length = 15)
+    private String documentoProfesor;
 
     @Column(nullable = false)
     private int cupos;
 
-
-    @ManyToOne(targetEntity = Profesor.class)
+    @ManyToOne
+    @JoinColumn(name = "documento_profesor", referencedColumnName = "documento" , insertable=false, updatable=false)
     private Profesor profesor;
 
-    @ManyToOne(targetEntity = Administrador.class)
+
+    @Column(name = "administrador", nullable = true , insertable=false, updatable=false)
+    private int administradorId;
+
+    @ManyToOne
+    @JoinColumn(name = "administrador", referencedColumnName = "administrador_id")
     private Administrador administrador;
 
-    @OneToMany(targetEntity = Reserva.class, fetch = FetchType.LAZY, mappedBy = "clase_reserva")
-    private List<Reserva> reserva_clase;
 
+    @OneToMany(mappedBy = "id_clase", fetch = FetchType.LAZY)
+    private List<Reserva> reservas;
 
-    public Clase(){
+    public Clase() {}
 
-    }
-
-    public Clase(long id_clase, Sede sede, String nivel, LocalTime hora_inicio, LocalTime hora_fin, LocalDate fecha, String documento_profesor, int cupos, Profesor profesor) {
-        this.id_clase = id_clase;
+    public Clase(Sede sede, String nivel, LocalTime hora_inicio, LocalTime hora_fin, LocalDate fecha,String documentoProfesor, int cupos, int administradorId) {
         this.sede = sede;
         this.nivel = nivel;
         this.hora_inicio = hora_inicio;
         this.hora_fin = hora_fin;
         this.fecha = fecha;
-        this.documento_profesor = documento_profesor;
+        this.documentoProfesor = documentoProfesor;
         this.cupos = cupos;
-        this.profesor = profesor;
+        this.administradorId = administradorId;
     }
 
-    public long getId_clase() {
+    // Getters y setters
+    public int getId_clase() {
         return id_clase;
     }
 
-    public void setId_clase(long id_clase) {
+    public void setId_clase(int id_clase) {
         this.id_clase = id_clase;
     }
 
@@ -111,12 +116,12 @@ public class Clase {
         this.fecha = fecha;
     }
 
-    public String getDocumento_profesor() {
-        return documento_profesor;
+    public String getDocumentoProfesor() {
+        return documentoProfesor;
     }
 
-    public void setDocumento_profesor(String documento_profesor) {
-        this.documento_profesor = documento_profesor;
+    public void setDocumentoProfesor(String documentoProfesor) {
+        this.documentoProfesor = documentoProfesor;
     }
 
     public int getCupos() {
@@ -125,6 +130,14 @@ public class Clase {
 
     public void setCupos(int cupos) {
         this.cupos = cupos;
+    }
+
+    public int getAdministradorId() {
+        return administradorId;
+    }
+
+    public void setAdministradorId(int administradorId) {
+        this.administradorId = administradorId;
     }
 
     public Profesor getProfesor() {
@@ -143,5 +156,11 @@ public class Clase {
         this.administrador = administrador;
     }
 
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
 
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }
 }

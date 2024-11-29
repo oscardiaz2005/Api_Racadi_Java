@@ -1,52 +1,48 @@
 package com.Racadi.Academy.Racadi_Academy.Entidades;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "pagos")
 public class Pago {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_pago;
+    private int id_pago;
 
     @Column(nullable = false)
     private Date fecha;
 
     @Column(nullable = false)
-    private int calor;
+    private int valor;  // Cambié calor por valor, como en el modelo de Python
 
-
-    @ManyToOne(targetEntity = Cuenta.class)
+    @ManyToOne
+    @JoinColumn(name = "cuenta_documento", referencedColumnName = "documento", nullable = false, foreignKey = @ForeignKey(name = "fk_cuenta_pago"))
+    @OnDelete(action = OnDeleteAction.CASCADE)  // Aquí se implementa el CASCADE
     private Cuenta cuenta_documento;
 
-
-
-    public Pago(){
-
+    // Constructor vacío
+    public Pago() {
     }
 
-    public Pago(long id_pago, Date fecha, int calor, Cuenta cuenta_documento) {
+    // Constructor con parámetros
+    public Pago(int id_pago, Date fecha, int valor, Cuenta cuenta_documento) {
         this.id_pago = id_pago;
         this.fecha = fecha;
-        this.calor = calor;
+        this.valor = valor;
         this.cuenta_documento = cuenta_documento;
     }
 
-    public Cuenta getCuenta_documento() {
-        return cuenta_documento;
-    }
-
-    public void setCuenta_documento(Cuenta cuenta_documento) {
-        this.cuenta_documento = cuenta_documento;
-    }
-
-    public long getId_pago() {
+    // Getters y setters
+    public int getId_pago() {
         return id_pago;
     }
 
-    public void setId_pago(long id_pago) {
+    public void setId_pago(int id_pago) {
         this.id_pago = id_pago;
     }
 
@@ -58,13 +54,19 @@ public class Pago {
         this.fecha = fecha;
     }
 
-    public int getCalor() {
-        return calor;
+    public int getValor() {
+        return valor;
     }
 
-    public void setCalor(int calor) {
-        this.calor = calor;
+    public void setValor(int valor) {
+        this.valor = valor;
     }
 
+    public Cuenta getCuenta_documento() {
+        return cuenta_documento;
+    }
 
+    public void setCuenta_documento(Cuenta cuenta_documento) {
+        this.cuenta_documento = cuenta_documento;
+    }
 }
