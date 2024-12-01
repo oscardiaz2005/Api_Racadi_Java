@@ -6,11 +6,13 @@ import com.Racadi.Academy.Racadi_Academy.Entidades.Sede;
 import com.Racadi.Academy.Racadi_Academy.Servicios.EstudianteServicio;
 import com.Racadi.Academy.Racadi_Academy.Entidades.Estudiante;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
+import java.util.List;
 
 @RestController
 public class EstudianteControlador {
@@ -70,6 +72,39 @@ public class EstudianteControlador {
                 fotoPerfilUrl);
 
         return ResponseEntity.ok("Estudiante agregado exitosamente.");
+    }
+
+
+    @GetMapping("/obtenerestudiantes")
+    public ResponseEntity<List<Estudiante>> obtenerEstudiantes() {
+        try {
+            List<Estudiante> estudiantes = estudianteServicio.obtenerTodosLosEstudiantes();
+            return ResponseEntity.ok(estudiantes);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
+
+
+    @GetMapping("/obtenerestudiante/{documento}")
+    public ResponseEntity<Estudiante> obtenerEstudiantePorDocumento(@PathVariable String documento) {
+        try {
+            Estudiante estudiante = estudianteServicio.obtenerEstudiantePorDocumento(documento);
+            return ResponseEntity.ok(estudiante);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
+    @DeleteMapping("/eliminarestudiante/{documento}")
+    public ResponseEntity<?> eliminarEstudiante(@PathVariable String documento) {
+        boolean eliminado = estudianteServicio.eliminarEstudiante(documento);
+
+        if (eliminado) {
+            return ResponseEntity.ok().body("Estudiante con documento " + documento + " eliminado");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No se encontró estudiante");
+        }
     }
 }
 

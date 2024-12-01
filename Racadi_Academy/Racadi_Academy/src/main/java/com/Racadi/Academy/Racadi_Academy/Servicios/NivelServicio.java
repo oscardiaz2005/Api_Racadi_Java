@@ -20,4 +20,14 @@ public class NivelServicio {
                 .map(Nivel::getNombre_nivel) // E
                 .collect(Collectors.toList());
     }
+
+
+    public String agregarNivel(Nivel nivel) {
+        try {
+            nivelRepositorio.save(nivel);
+            return "Nivel agregado correctamente";
+        } catch (Exception e) {
+            throw new RuntimeException("Algo salió mal: " + e.getMessage());
+        }
+    }
 }

@@ -7,4 +7,5 @@ import com.Racadi.Academy.Racadi_Academy.Entidades.Cuenta;
 
 @Repository
 public interface CuentaRepositorio extends JpaRepository<Cuenta, Long> {
+    Cuenta findByDocumento(String documento);
 }

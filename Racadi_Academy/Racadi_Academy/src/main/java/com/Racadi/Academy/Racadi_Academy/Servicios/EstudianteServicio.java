@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,6 +98,31 @@ public class EstudianteServicio {
     public Date obtenerFechaProximoPago() {
         // Lógica para obtener la fecha de próximo pago (ejemplo: un mes después de la fecha actual)
         return Date.valueOf("2025-12-01");
+    }
+
+
+
+    public List<Estudiante> obtenerTodosLosEstudiantes() {
+        try {
+            return estudianteRepositorio.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener los estudiantes: " + e.getMessage(), e);
+        }
+    }
+
+
+    public Estudiante obtenerEstudiantePorDocumento(String documento) {
+        return estudianteRepositorio.BuscarByDocumento(documento)
+                .orElseThrow(() -> new RuntimeException("No se encontró el estudiante con el documento: " + documento));
+    }
+
+    public boolean eliminarEstudiante(String documento) {
+        Optional<Estudiante> estudiante = estudianteRepositorio.BuscarByDocumento(documento);
+        if (estudiante.isPresent()) {
+            estudianteRepositorio.delete(estudiante.get());
+            return true;
+        }
+        return false;
     }
 }
 

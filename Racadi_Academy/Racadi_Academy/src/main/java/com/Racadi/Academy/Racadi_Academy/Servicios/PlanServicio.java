@@ -19,4 +19,14 @@ public class PlanServicio {
         // Extraemos solo los nombres de los planes
         return planes.stream().map(Plan::getNombre).collect(Collectors.toList());
     }
+
+
+    public String agregarPlan(Plan plan) {
+        try {
+            planRepositorio.save(plan);
+            return "Plan agregado correctamente";
+        } catch (Exception e) {
+            throw new RuntimeException("Algo salió mal: " + e.getMessage());
+        }
+    }
 }

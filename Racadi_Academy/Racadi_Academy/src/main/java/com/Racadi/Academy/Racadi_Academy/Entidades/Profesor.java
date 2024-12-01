@@ -71,6 +71,12 @@ public class Profesor {
         this.fotoPerfil = fotoPerfil;
     }
 
+    public Profesor(String documento, String nombre, String apellido) {
+        this.documento = documento;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+
     @PrePersist
     public void prePersist() {
         if (this.fechaContratacion == null) {

@@ -1,7 +1,6 @@
 package com.Racadi.Academy.Racadi_Academy.Entidades;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class Administrador {
         this.contraseña = contraseña;
     }
 
-    public int getAdministrador_id() {
+    public long getAdministrador_id() {
         return administrador_id;
     }
 

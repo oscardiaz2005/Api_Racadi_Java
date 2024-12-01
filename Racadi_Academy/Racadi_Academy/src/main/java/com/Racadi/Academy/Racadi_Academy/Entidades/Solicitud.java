@@ -101,7 +101,7 @@ public class Solicitud {
         return documento;
     }
 
-    public void setDocumento(Estudiante documento) {
+    public void setDocumento(String documento) {
         this.documento = documento;
     }
 }
